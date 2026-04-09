@@ -1,0 +1,477 @@
+<style>
+:root {
+  --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f1f5f9;
+  --color-background-tertiary: #cbd5e1;
+  --color-background-info: #e1f5fe;
+  --color-text-primary: #2c3e50;
+  --color-text-secondary: #5a6c7d;
+  --color-text-tertiary: #95a5a6;
+  --color-text-info: #0277bd;
+  --color-border-secondary: #94a3b8;
+  --color-border-tertiary: #cbd5e1;
+  --color-border-info: #81d4fa;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary)}
+.screen{display:none;padding:1.5rem;max-width:700px;margin:0 auto}
+.screen.active{display:block}
+header{background:linear-gradient(135deg,#2c3e50,#34495e);color:white;padding:1rem 1.5rem;text-align:center;border-radius:0 0 var(--border-radius-lg) var(--border-radius-lg);margin-bottom:1rem;max-width:700px;margin:0 auto 1rem}
+header h1{font-size:22px;font-weight:500}
+header p{font-size:13px;opacity:0.7;margin-top:4px}
+nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:1rem;max-width:700px;margin:0 auto 1rem}
+.nav-btn{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);padding:8px 16px;border-radius:var(--border-radius-md);cursor:pointer;font-size:13px;color:var(--color-text-primary);transition:all 0.15s}
+.nav-btn:hover{background:var(--color-background-secondary)}
+.nav-btn.active{background:#2c3e50;color:white;border-color:#2c3e50}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem}
+.card h2{font-size:18px;font-weight:500;margin-bottom:1rem;color:var(--color-text-primary)}
+.card h3{font-size:15px;font-weight:500;margin:1rem 0 0.5rem;color:var(--color-text-primary)}
+input[type=text],input[type=password],input[type=number]{width:100%;padding:8px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary);font-size:14px;margin-bottom:8px;outline:none}
+input:focus{border-color:#3498db;box-shadow:0 0 0 2px rgba(52,152,219,0.15)}
+.btn{background:#3498db;color:white;border:none;padding:9px 20px;border-radius:var(--border-radius-md);cursor:pointer;font-size:14px;font-weight:500;transition:all 0.15s}
+.btn:hover{background:#2980b9}
+.btn-success{background:#1abc9c}
+.btn-success:hover{background:#16a085}
+.btn-danger{background:#e74c3c}
+.btn-danger:hover{background:#c0392b}
+.btn-outline{background:transparent;color:var(--color-text-primary);border:0.5px solid var(--color-border-secondary)}
+.btn-outline:hover{background:var(--color-background-secondary)}
+
+.timer-bar{height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden;margin-bottom:1rem}
+.timer-fill{height:100%;background:#1abc9c;transition:width 1s linear;border-radius:3px}
+.timer-fill.warning{background:#f39c12}
+.timer-fill.danger{background:#e74c3c}
+.timer-text{text-align:center;font-size:13px;color:var(--color-text-secondary);margin-bottom:0.5rem}
+
+.option-btn{display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;font-size:14px;color:var(--color-text-primary);transition:all 0.15s}
+.option-btn:hover:not(:disabled){background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info)}
+.option-btn.correct{background:#eaf3de;border-color:#639922;color:#3B6D11;font-weight:500}
+.option-btn.wrong{background:#fcebeb;border-color:#A32D2D;color:#A32D2D}
+.option-btn:disabled{cursor:not-allowed;opacity:0.8}
+.progress-text{font-size:13px;color:var(--color-text-secondary);margin-bottom:0.5rem}
+.progress-bar{height:4px;background:var(--color-background-secondary);border-radius:2px;margin-bottom:1rem}
+.progress-fill{height:100%;background:#3498db;border-radius:2px;transition:width 0.3s}
+.feedback{padding:8px 12px;border-radius:var(--border-radius-md);font-size:13px;margin-top:8px;margin-bottom:8px}
+.feedback.correct{background:#eaf3de;color:#3B6D11}
+.feedback.wrong{background:#fcebeb;color:#A32D2D}
+
+.score-circle{width:110px;height:110px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1rem;border:3px solid #3498db;background:var(--color-background-secondary)}
+.score-big{font-size:28px;font-weight:500;color:#3498db}
+.score-label{font-size:12px;color:var(--color-text-secondary)}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;margin:4px}
+
+.lb-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:14px}
+.lb-rank{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.lb-rank.gold{background:#faeeda;color:#854F0B}
+.lb-rank.silver{background:#F1EFE8;color:#5F5E5A}
+.lb-rank.bronze{background:#FAECE7;color:#993C1D}
+.lb-name{flex:1;font-weight:500}
+.lb-score{color:var(--color-text-secondary)}
+.lb-cat{font-size:12px;color:var(--color-text-tertiary)}
+
+.chat-window{height:260px;overflow-y:auto;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;margin-bottom:8px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:80%;padding:8px 12px;border-radius:var(--border-radius-md);font-size:13px;line-height:1.5}
+.msg.bot{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);align-self:flex-start}
+.msg.user{background:#3498db;color:white;align-self:flex-end}
+.chat-input-row{display:flex;gap:8px}
+.chat-input-row input{margin:0;flex:1}
+.quick-btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.quick-btn{font-size:12px;padding:5px 10px;border:0.5px solid var(--color-border-secondary);border-radius:20px;background:var(--color-background-secondary);cursor:pointer;color:var(--color-text-secondary);transition:all 0.15s}
+.quick-btn:hover{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+
+.q-item{padding:8px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:6px;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.q-item span{flex:1;color:var(--color-text-primary)}
+.cat-select{padding:6px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary);font-size:13px;margin-bottom:8px;width:100%}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem}
+.stat-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px;text-align:center}
+.stat-val{font-size:22px;font-weight:500;color:#3498db}
+.stat-lbl{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+</style>
+
+<h2 class="sr-only" style="position:absolute;left:-9999px">Enhanced Quiz Portal with Timer, Chatbot, and Leaderboard</h2>
+
+<header>
+  <h1>Quiz Portal</h1>
+  <p>User Panel · Admin Panel · Leaderboard</p>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="gotoScreen('login')">User Login</button>
+  <button class="nav-btn" onclick="gotoScreen('leaderboard')">Leaderboard</button>
+  <button class="nav-btn" onclick="gotoScreen('chatbot')">Help Bot</button>
+  <button class="nav-btn" onclick="gotoScreen('adminLogin')">Admin</button>
+</nav>
+
+<div id="screen-login" class="screen active" style="max-width:700px;margin:0 auto">
+  <div class="card">
+    <h2>Welcome back</h2>
+    <label style="font-size:13px;color:var(--color-text-secondary)">Your name</label>
+    <input type="text" id="username" placeholder="Enter your name">
+    <label style="font-size:13px;color:var(--color-text-secondary)">Category</label>
+    <select class="cat-select" id="catSelect">
+      <option value="all">All categories</option>
+      <option value="HTML">HTML</option>
+      <option value="CSS">CSS</option>
+      <option value="JavaScript">JavaScript</option>
+      <option value="General">General</option>
+    </select>
+    <label style="font-size:13px;color:var(--color-text-secondary)">Difficulty</label>
+    <select class="cat-select" id="diffSelect">
+      <option value="all">All levels</option>
+      <option value="Easy">Easy</option>
+      <option value="Medium">Medium</option>
+      <option value="Hard">Hard</option>
+    </select>
+    <button class="btn btn-success" onclick="startQuiz()" style="width:100%;margin-top:8px">Start Quiz</button>
+  </div>
+</div>
+
+<div id="screen-quiz" class="screen" style="max-width:700px;margin:0 auto">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span class="progress-text" id="progText">Question 1 of 5</span>
+      <span id="timerNum" style="font-size:13px;font-weight:500;color:#1abc9c">15s</span>
+    </div>
+    <div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+    <h2 id="questionText" style="margin-bottom:1rem;font-size:16px;line-height:1.5"></h2>
+    <div id="optionsDiv"></div>
+    <div id="feedbackDiv"></div>
+    <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display:none;margin-top:8px">Next question →</button>
+  </div>
+</div>
+
+<div id="screen-result" class="screen" style="max-width:700px;margin:0 auto">
+  <div class="card" style="text-align:center">
+    <h2>Quiz complete!</h2>
+    <div class="score-circle">
+      <span class="score-big" id="scoreBig"></span>
+      <span class="score-label">score</span>
+    </div>
+    <p id="resultMsg" style="font-size:14px;color:var(--color-text-secondary);margin-bottom:1rem"></p>
+    <div id="resultBadges" style="margin-bottom:1rem"></div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-success" onclick="gotoScreen('login')">Play again</button>
+      <button class="btn btn-outline" onclick="gotoScreen('leaderboard')">Leaderboard</button>
+    </div>
+  </div>
+  <div class="card" id="reviewCard">
+    <h3>Review your answers</h3>
+    <div id="reviewList"></div>
+  </div>
+</div>
+
+<div id="screen-leaderboard" class="screen" style="max-width:700px;margin:0 auto">
+  <div class="card">
+    <h2>Leaderboard</h2>
+    <div id="lbList"></div>
+  </div>
+</div>
+
+<div id="screen-chatbot" class="screen" style="max-width:700px;margin:0 auto">
+  <div class="card">
+    <h2>Help assistant</h2>
+    <div class="chat-window" id="chatWindow"></div>
+    <div class="quick-btns">
+      <button class="quick-btn" onclick="sendQuick('How do I start the quiz?')">How to start?</button>
+      <button class="quick-btn" onclick="sendQuick('What is the timer?')">Timer rules?</button>
+      <button class="quick-btn" onclick="sendQuick('How is my score calculated?')">Scoring?</button>
+      <button class="quick-btn" onclick="sendQuick('How do I access the admin panel?')">Admin access?</button>
+      <button class="quick-btn" onclick="sendQuick('What categories are available?')">Categories?</button>
+      <button class="quick-btn" onclick="sendQuick('How does the leaderboard work?')">Leaderboard?</button>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="Ask anything about the quiz..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="btn" onclick="sendChat()">Send</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-adminLogin" class="screen" style="max-width:700px;margin:0 auto">
+  <div class="card">
+    <h2>Admin login</h2>
+    <input type="password" id="adminPass" placeholder="Enter admin password">
+    <p style="font-size:12px;color:var(--color-text-tertiary);margin-bottom:8px">Hint: admin123</p>
+    <button class="btn" onclick="doAdminLogin()">Login</button>
+  </div>
+</div>
+
+<div id="screen-admin" class="screen" style="max-width:700px;margin:0 auto">
+  <div class="card">
+    <h2>Admin dashboard</h2>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-val" id="statQ">0</div><div class="stat-lbl">Questions</div></div>
+      <div class="stat-box"><div class="stat-val" id="statP">0</div><div class="stat-lbl">Players</div></div>
+      <div class="stat-box"><div class="stat-val" id="statA">0%</div><div class="stat-lbl">Avg score</div></div>
+    </div>
+    <button class="btn btn-danger btn-outline" style="font-size:12px;padding:6px 12px" onclick="clearLeaderboard()">Clear leaderboard</button>
+  </div>
+  <div class="card">
+    <h2>Add question</h2>
+    <input type="text" id="nQ" placeholder="Question text">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <input type="text" id="o1" placeholder="Option 1">
+      <input type="text" id="o2" placeholder="Option 2">
+      <input type="text" id="o3" placeholder="Option 3">
+      <input type="text" id="o4" placeholder="Option 4">
+    </div>
+    <select class="cat-select" id="nCat"><option>HTML</option><option>CSS</option><option>JavaScript</option><option>General</option></select>
+    <select class="cat-select" id="nDiff"><option>Easy</option><option>Medium</option><option>Hard</option></select>
+    <input type="number" id="nAns" placeholder="Correct option (1–4)" min="1" max="4">
+    <input type="number" id="nTime" placeholder="Timer seconds (default 15)" min="5" max="60">
+    <button class="btn btn-success" onclick="addQuestion()" style="width:100%">Add question</button>
+  </div>
+  <div class="card">
+    <h2>Questions bank</h2>
+    <div id="adminQList"></div>
+  </div>
+</div>
+
+<script>
+let quiz = JSON.parse(localStorage.getItem('eqz_quiz')) || [
+  {q:"What does HTML stand for?",opts:["Hyper Text Markup Language","High Text Machine Language","Hyper Tabular Markup Language","None"],ans:0,cat:"HTML",diff:"Easy",time:15},
+  {q:"Which CSS property changes text color?",opts:["font-color","text-color","color","foreground"],ans:2,cat:"CSS",diff:"Easy",time:15},
+  {q:"Which keyword declares a variable in JS?",opts:["var","let","const","All of the above"],ans:3,cat:"JavaScript",diff:"Easy",time:15},
+  {q:"What does CSS stand for?",opts:["Cascading Style Sheets","Creative Style Sheets","Colorful Style Sheets","Coded Style Sheets"],ans:0,cat:"CSS",diff:"Easy",time:15},
+  {q:"Which HTML tag creates a hyperlink?",opts:["<link>","<a>","<href>","<url>"],ans:1,cat:"HTML",diff:"Easy",time:15},
+  {q:"In JS, what does === check?",opts:["Value only","Type only","Value and type","Neither"],ans:2,cat:"JavaScript",diff:"Medium",time:20},
+  {q:"Which is NOT a valid CSS selector?",opts:[".class","#id","*element","[attr]"],ans:2,cat:"CSS",diff:"Medium",time:20},
+];
+let leaderboard = JSON.parse(localStorage.getItem('eqz_lb')) || [];
+let currentUser = '';
+let filteredQuiz = [];
+let currentQ = 0, score = 0;
+let timerInterval = null;
+let timeLeft = 15;
+let userAnswers = [];
+
+function save(){localStorage.setItem('eqz_quiz',JSON.stringify(quiz));}
+function saveLB(){localStorage.setItem('eqz_lb',JSON.stringify(leaderboard));}
+
+function gotoScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const map={login:0,leaderboard:1,chatbot:2,adminLogin:3,admin:3};
+  if(map[id]!==undefined) document.querySelectorAll('.nav-btn')[map[id]].classList.add('active');
+  if(id==='leaderboard')renderLB();
+  if(id==='admin'){renderAdminStats();renderAdminQ();}
+}
+
+function startQuiz(){
+  currentUser = document.getElementById('username').value.trim();
+  if(!currentUser){alert('Please enter your name');return;}
+  const cat = document.getElementById('catSelect').value;
+  const diff = document.getElementById('diffSelect').value;
+  filteredQuiz = quiz.filter(q=>(cat==='all'||q.cat===cat)&&(diff==='all'||q.diff===diff));
+  if(filteredQuiz.length===0){alert('No questions for selected filters');return;}
+  filteredQuiz = [...filteredQuiz].sort(()=>Math.random()-0.5).slice(0,Math.min(8,filteredQuiz.length));
+  currentQ=0;score=0;userAnswers=[];
+  gotoScreen('quiz');
+  showQ();
+}
+
+function showQ(){
+  if(currentQ>=filteredQuiz.length){endQuiz();return;}
+  const q=filteredQuiz[currentQ];
+  document.getElementById('progText').textContent=`Question ${currentQ+1} of ${filteredQuiz.length}`;
+  document.getElementById('progFill').style.width=`${(currentQ/filteredQuiz.length)*100}%`;
+  document.getElementById('questionText').textContent=q.q;
+  document.getElementById('feedbackDiv').innerHTML='';
+  document.getElementById('nextBtn').style.display='none';
+  const od=document.getElementById('optionsDiv');
+  od.innerHTML='';
+  q.opts.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='option-btn';
+    b.textContent=opt;
+    b.onclick=()=>selectAnswer(i,b);
+    od.appendChild(b);
+  });
+  startTimer(q.time||15);
+}
+
+function startTimer(secs){
+  clearInterval(timerInterval);
+  timeLeft=secs;
+  const fill=document.getElementById('timerFill');
+  const num=document.getElementById('timerNum');
+  fill.style.width='100%';
+  fill.className='timer-fill';
+  num.style.color='#1abc9c';
+  num.textContent=timeLeft+'s';
+  timerInterval=setInterval(()=>{
+    timeLeft--;
+    const pct=(timeLeft/secs)*100;
+    fill.style.width=pct+'%';
+    num.textContent=timeLeft+'s';
+    if(pct<=33){fill.className='timer-fill danger';num.style.color='#e74c3c';}
+    else if(pct<=60){fill.className='timer-fill warning';num.style.color='#f39c12';}
+    if(timeLeft<=0){
+      clearInterval(timerInterval);
+      timeoutAnswer();
+    }
+  },1000);
+}
+
+function timeoutAnswer(){
+  const q=filteredQuiz[currentQ];
+  document.querySelectorAll('.option-btn').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.ans)b.classList.add('correct');
+  });
+  userAnswers.push({q:q.q,chosen:-1,correct:q.ans,opts:q.opts});
+  showFeedback(false,true);
+  document.getElementById('nextBtn').style.display='block';
+}
+
+function selectAnswer(idx,btn){
+  clearInterval(timerInterval);
+  const q=filteredQuiz[currentQ];
+  document.querySelectorAll('.option-btn').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.ans)b.classList.add('correct');
+    else if(i===idx)b.classList.add('wrong');
+  });
+  const correct=idx===q.ans;
+  if(correct)score++;
+  userAnswers.push({q:q.q,chosen:idx,correct:q.ans,opts:q.opts,was:correct});
+  showFeedback(correct,false);
+  document.getElementById('nextBtn').style.display='block';
+}
+
+function showFeedback(correct,timeout){
+  const fb=document.getElementById('feedbackDiv');
+  if(timeout){fb.innerHTML='<div class="feedback wrong">Time\'s up! Moving on...</div>';return;}
+  fb.innerHTML=`<div class="feedback ${correct?'correct':'wrong'}">${correct?'Correct! Well done.':'Incorrect. See the highlighted answer above.'}</div>`;
+}
+
+function nextQuestion(){
+  currentQ++;
+  showQ();
+}
+
+function endQuiz(){
+  clearInterval(timerInterval);
+  const pct=Math.round((score/filteredQuiz.length)*100);
+  document.getElementById('scoreBig').textContent=`${score}/${filteredQuiz.length}`;
+  let msg='',badge='';
+  if(pct>=90){msg='Outstanding! You nailed it!';badge='<span class="badge" style="background:#eaf3de;color:#3B6D11">Star performer</span>';}
+  else if(pct>=70){msg='Great job! Keep it up.';badge='<span class="badge" style="background:#E6F1FB;color:#185FA5">Good score</span>';}
+  else if(pct>=50){msg='Not bad! A bit more practice and you\'ll ace it.';badge='<span class="badge" style="background:#faeeda;color:#854F0B">Keep going</span>';}
+  else{msg='Keep practising. You can do better!';badge='';}
+  document.getElementById('resultMsg').textContent=msg;
+  document.getElementById('resultBadges').innerHTML=badge;
+  renderReview();
+  leaderboard.push({name:currentUser,score,total:filteredQuiz.length,pct,date:new Date().toLocaleDateString()});
+  leaderboard.sort((a,b)=>b.pct-a.pct);
+  if(leaderboard.length>20)leaderboard=leaderboard.slice(0,20);
+  saveLB();
+  gotoScreen('result');
+}
+
+function renderReview(){
+  const rl=document.getElementById('reviewList');
+  rl.innerHTML=userAnswers.map((a,i)=>`
+    <div style="margin-bottom:10px;padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)">
+      <p style="font-size:13px;font-weight:500;margin-bottom:6px">${i+1}. ${a.q}</p>
+      ${a.opts.map((o,j)=>`<div style="font-size:12px;padding:4px 8px;margin:2px 0;border-radius:4px;background:${j===a.correct?'#eaf3de':a.chosen===j?'#fcebeb':'transparent'};color:${j===a.correct?'#3B6D11':a.chosen===j?'#A32D2D':'var(--color-text-secondary)'}">${o}${j===a.correct?' ✓':a.chosen===j?' ✗':''}</div>`).join('')}
+    </div>`).join('');
+}
+
+function renderLB(){
+  const list=document.getElementById('lbList');
+  if(leaderboard.length===0){list.innerHTML='<p style="font-size:14px;color:var(--color-text-secondary)">No scores yet. Play a quiz!</p>';return;}
+  list.innerHTML=leaderboard.map((e,i)=>`
+    <div class="lb-row">
+      <div class="lb-rank ${i===0?'gold':i===1?'silver':i===2?'bronze':''}">${i+1}</div>
+      <span class="lb-name">${e.name}</span>
+      <span class="lb-score">${e.score}/${e.total} (${e.pct}%)</span>
+      <span class="lb-cat">${e.date||''}</span>
+    </div>`).join('');
+}
+
+function clearLeaderboard(){
+  if(confirm('Clear all leaderboard data?')){leaderboard=[];saveLB();renderAdminStats();}}
+
+const chatFAQ={
+  'start':'Enter your name, pick a category and difficulty, then click "Start Quiz".',
+  'timer':'Each question has a countdown timer (default 15s). If time runs out, the question is marked wrong and the correct answer is shown.',
+  'score':'You earn 1 point per correct answer. Your final percentage determines your leaderboard rank.',
+  'admin':'Click "Admin" in the nav. Password is admin123. Admins can add/delete questions and view stats.',
+  'categories':'Available categories: HTML, CSS, JavaScript, and General. You can also choose "All categories".',
+  'leaderboard':'After each quiz, your score is saved. The leaderboard shows the top 20 scores sorted by percentage.',
+  'difficulty':'Choose Easy, Medium, or Hard when starting. Each question has a difficulty tag.',
+  'restart':'After a quiz, click "Play again" to go back to the start screen.',
+  'review':'After finishing a quiz you can see a full review of every question with correct and incorrect answers highlighted.',
+};
+function matchFAQ(text){
+  const t=text.toLowerCase();
+  if(t.includes('start')||t.includes('begin')||t.includes('how'))return chatFAQ.start;
+  if(t.includes('timer')||t.includes('time')||t.includes('clock'))return chatFAQ.timer;
+  if(t.includes('score')||t.includes('calcul')||t.includes('point'))return chatFAQ.score;
+  if(t.includes('admin')||t.includes('password'))return chatFAQ.admin;
+  if(t.includes('categor'))return chatFAQ.categories;
+  if(t.includes('leaderboard')||t.includes('ranking'))return chatFAQ.leaderboard;
+  if(t.includes('difficult')||t.includes('easy')||t.includes('hard')||t.includes('medium'))return chatFAQ.difficulty;
+  if(t.includes('restart')||t.includes('again')||t.includes('replay'))return chatFAQ.restart;
+  if(t.includes('review')||t.includes('answer')||t.includes('result'))return chatFAQ.review;
+  return "I'm not sure about that. Try asking about: starting the quiz, the timer, scoring, categories, difficulty, the leaderboard, or admin access.";
+}
+function addMsg(text,type){
+  const cw=document.getElementById('chatWindow');
+  const d=document.createElement('div');
+  d.className='msg '+type;
+  d.textContent=text;
+  cw.appendChild(d);
+  cw.scrollTop=cw.scrollHeight;
+}
+function sendChat(){
+  const inp=document.getElementById('chatInput');
+  const v=inp.value.trim();
+  if(!v)return;
+  addMsg(v,'user');
+  inp.value='';
+  setTimeout(()=>addMsg(matchFAQ(v),'bot'),400);
+}
+function sendQuick(txt){addMsg(txt,'user');setTimeout(()=>addMsg(matchFAQ(txt),'bot'),400);}
+setTimeout(()=>{addMsg("Hi! I'm your quiz assistant. Ask me anything about how the quiz works, or use the quick buttons above.","bot");},100);
+
+function doAdminLogin(){
+  if(document.getElementById('adminPass').value==='admin123'){gotoScreen('admin');}
+  else{alert('Wrong password');}
+}
+function renderAdminStats(){
+  document.getElementById('statQ').textContent=quiz.length;
+  document.getElementById('statP').textContent=leaderboard.length;
+  const avg=leaderboard.length?Math.round(leaderboard.reduce((a,b)=>a+b.pct,0)/leaderboard.length):0;
+  document.getElementById('statA').textContent=avg+'%';
+}
+function renderAdminQ(){
+  const list=document.getElementById('adminQList');
+  list.innerHTML=quiz.map((q,i)=>`
+    <div class="q-item">
+      <span>${i+1}. ${q.q} <span style="font-size:11px;color:var(--color-text-tertiary)">[${q.cat||'?'} · ${q.diff||'?'}]</span></span>
+      <button class="btn btn-danger" style="padding:4px 10px;font-size:12px" onclick="deleteQ(${i})">Delete</button>
+    </div>`).join('');
+}
+function deleteQ(i){quiz.splice(i,1);save();renderAdminQ();renderAdminStats();}
+function addQuestion(){
+  const q=document.getElementById('nQ').value.trim();
+  const o=[document.getElementById('o1').value,document.getElementById('o2').value,document.getElementById('o3').value,document.getElementById('o4').value];
+  const ans=parseInt(document.getElementById('nAns').value)-1;
+  const cat=document.getElementById('nCat').value;
+  const diff=document.getElementById('nDiff').value;
+  const time=parseInt(document.getElementById('nTime').value)||15;
+  if(!q||o.some(x=>!x)||isNaN(ans)||ans<0||ans>3){alert('Please fill all fields correctly');return;}
+  quiz.push({q,opts:o,ans,cat,diff,time});
+  save();renderAdminQ();renderAdminStats();
+  [document.getElementById('nQ'),document.getElementById('o1'),document.getElementById('o2'),document.getElementById('o3'),document.getElementById('o4'),document.getElementById('nAns'),document.getElementById('nTime')].forEach(el=>el.value='');
+  alert('Question added!');
+}
+renderAdminStats();
+</script>
